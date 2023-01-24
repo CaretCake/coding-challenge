@@ -4,17 +4,17 @@ const { Heap } = require('heap-js');
 // Print all entries, across all of the sources, in chronological order.
 
 module.exports = (logSources, printer) => {
-  const logHeap = new Heap((a, b) => a.last.date.getTime() - b.last.date.getTime());
-  logHeap.init(logSources);
+  const logSourceMinHeap = new Heap((a, b) => a.last.date.getTime() - b.last.date.getTime());
+  logSourceMinHeap.init(logSources);
 
-  while(logHeap.size() > 0) {
-    const currentLog = logHeap.pop();
+  while(logSourceMinHeap.size() > 0) {
+    const currentLog = logSourceMinHeap.pop();
 
     printer.print(currentLog.last);
     currentLog.pop();
     
     if (!currentLog.drained) {
-      logHeap.push(currentLog);
+      logSourceMinHeap.push(currentLog);
     }
   }
 
